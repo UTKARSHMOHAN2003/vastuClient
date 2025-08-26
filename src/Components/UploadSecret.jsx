@@ -10,6 +10,8 @@ const UploadSecret = ({
   setError,
   onSubmit,
   projects,
+  isDarkMode,
+  themeClasses,
 }) => {
   const [dragActive, setDragActive] = useState(false);
 
@@ -279,13 +281,13 @@ const UploadSecret = ({
   };
 
   return (
-    <div className="bg-white shadow rounded-lg p-6">
-      <h2 className="text-xl font-medium text-gray-900 mb-4">
+    <div className={`${themeClasses.cardBg} shadow rounded-lg p-6`}>
+      <h2 className={`text-xl font-medium ${themeClasses.text} mb-4`}>
         Upload Secret Files
       </h2>
 
       {error && (
-        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md">
+        <div className="mb-4 p-3 bg-red-900/20 border border-red-700 rounded-md">
           <div className="flex">
             <div className="flex-shrink-0">
               <svg
@@ -301,7 +303,7 @@ const UploadSecret = ({
               </svg>
             </div>
             <div className="ml-3">
-              <p className="text-sm text-red-800">{error}</p>
+              <p className="text-sm text-red-300">{error}</p>
             </div>
           </div>
         </div>
@@ -312,7 +314,7 @@ const UploadSecret = ({
           <div className="sm:col-span-3">
             <label
               htmlFor="title"
-              className="block text-sm font-medium text-gray-700"
+              className={`block text-sm font-medium ${themeClasses.text}`}
             >
               Title *
             </label>
@@ -324,7 +326,7 @@ const UploadSecret = ({
                 required
                 value={formData.title || ""}
                 onChange={handleInputChange}
-                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                className={`shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm ${themeClasses.border} rounded-md ${themeClasses.cardBg} ${themeClasses.text} placeholder-gray-400`}
                 placeholder="Enter a title for your upload"
               />
             </div>
@@ -333,7 +335,7 @@ const UploadSecret = ({
           <div className="sm:col-span-3">
             <label
               htmlFor="category"
-              className="block text-sm font-medium text-gray-700"
+              className={`block text-sm font-medium ${themeClasses.text}`}
             >
               Category
             </label>
@@ -343,10 +345,10 @@ const UploadSecret = ({
                 id="category"
                 value="secret"
                 readOnly
-                className="shadow-sm block w-full sm:text-sm border-gray-300 rounded-md bg-gray-100 cursor-not-allowed text-gray-500"
+                className={`shadow-sm block w-full sm:text-sm ${themeClasses.border} rounded-md bg-gray-700 cursor-not-allowed text-gray-400`}
               />
             </div>
-            <p className="mt-1 text-xs text-gray-500">
+            <p className={`mt-1 text-xs ${themeClasses.textMuted}`}>
               Secret files require access tokens to view
             </p>
           </div>
@@ -354,7 +356,7 @@ const UploadSecret = ({
           <div className="sm:col-span-3">
             <label
               htmlFor="project_id"
-              className="block text-sm font-medium text-gray-700"
+              className={`block text-sm font-medium ${themeClasses.text}`}
             >
               Project ID
             </label>
@@ -367,10 +369,10 @@ const UploadSecret = ({
                 onChange={handleInputChange}
                 placeholder="Optional project ID"
                 min="1"
-                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                className={`shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm ${themeClasses.border} rounded-md ${themeClasses.cardBg} ${themeClasses.text} placeholder-gray-400`}
               />
             </div>
-            <p className="mt-1 text-xs text-gray-500">
+            <p className={`mt-1 text-xs ${themeClasses.textMuted}`}>
               Leave empty if not associated with a project
             </p>
           </div>
@@ -378,7 +380,7 @@ const UploadSecret = ({
           <div className="sm:col-span-6">
             <label
               htmlFor="description"
-              className="block text-sm font-medium text-gray-700"
+              className={`block text-sm font-medium ${themeClasses.text}`}
             >
               Description
             </label>
@@ -389,7 +391,7 @@ const UploadSecret = ({
                 rows="3"
                 value={formData.description || ""}
                 onChange={handleInputChange}
-                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                className={`shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm ${themeClasses.border} rounded-md ${themeClasses.cardBg} ${themeClasses.text} placeholder-gray-400`}
                 placeholder="Optional description for your files"
               />
             </div>
@@ -398,7 +400,7 @@ const UploadSecret = ({
           <div className="sm:col-span-6">
             <label
               htmlFor="files"
-              className="block text-sm font-medium text-gray-700"
+              className={`block text-sm font-medium ${themeClasses.text}`}
             >
               Files * (Maximum 5 files)
             </label>
@@ -417,8 +419,8 @@ const UploadSecret = ({
               <div
                 className={`mt-2 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${
                   dragActive
-                    ? "border-indigo-400 bg-indigo-50"
-                    : "border-gray-300 hover:border-indigo-400"
+                    ? "border-indigo-400 bg-indigo-900/20"
+                    : `${themeClasses.border} hover:border-indigo-400`
                 }`}
                 onClick={() => document.getElementById("files").click()}
                 onDragEnter={handleDrag}
@@ -441,8 +443,8 @@ const UploadSecret = ({
                       strokeLinejoin="round"
                     />
                   </svg>
-                  <div className="flex text-sm text-gray-600">
-                    <span className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500">
+                  <div className="flex text-sm text-gray-400">
+                    <span className="relative cursor-pointer bg-gray-700 rounded-md font-medium text-indigo-400 hover:text-indigo-300">
                       Upload files
                     </span>
                     <p className="pl-1">or drag and drop</p>
@@ -457,13 +459,13 @@ const UploadSecret = ({
               {previewUrls.length > 0 && (
                 <div className="mt-4">
                   <div className="mb-3 flex items-center justify-between">
-                    <h4 className="text-sm font-medium text-gray-700">
+                    <h4 className={`text-sm font-medium ${themeClasses.text}`}>
                       Selected Files ({previewUrls.length}/5)
                     </h4>
                     <button
                       type="button"
                       onClick={clearAllFiles}
-                      className="text-xs text-red-600 hover:text-red-800 font-medium"
+                      className="text-xs text-red-400 hover:text-red-300 font-medium"
                     >
                       Clear All
                     </button>
@@ -473,7 +475,7 @@ const UploadSecret = ({
                     {previewUrls.map((item, index) => (
                       <div
                         key={index}
-                        className="relative border border-gray-200 rounded-lg p-2 group hover:shadow-md transition-shadow"
+                        className={`relative border ${themeClasses.border} rounded-lg p-2 group hover:shadow-md transition-shadow`}
                       >
                         {item.type === "image" ? (
                           <div className="aspect-square overflow-hidden rounded-lg mb-2">
@@ -484,12 +486,12 @@ const UploadSecret = ({
                             />
                           </div>
                         ) : (
-                          <div className="aspect-square flex items-center justify-center bg-gray-100 rounded-lg mb-2">
+                          <div className="aspect-square flex items-center justify-center bg-gray-700 rounded-lg mb-2">
                             <div className="text-center">
                               <div className="text-2xl mb-1">
                                 {getFileIcon(item.fileType)}
                               </div>
-                              <div className="text-xs text-gray-500 uppercase font-medium">
+                              <div className="text-xs text-gray-400 uppercase font-medium">
                                 {item.fileType?.split("/")[1]?.slice(0, 4) ||
                                   "FILE"}
                               </div>
@@ -498,12 +500,12 @@ const UploadSecret = ({
                         )}
 
                         <div
-                          className="text-xs text-gray-700 truncate font-medium mb-1"
+                          className={`text-xs ${themeClasses.text} truncate font-medium mb-1`}
                           title={item.name}
                         >
                           {item.name}
                         </div>
-                        <div className="text-xs text-gray-500">
+                        <div className={`text-xs ${themeClasses.textMuted}`}>
                           {formatFileSize(item.size)}
                         </div>
 
@@ -532,8 +534,8 @@ const UploadSecret = ({
                   </div>
 
                   {previewUrls.length > 5 && (
-                    <div className="mt-3 p-3 bg-red-50 border border-red-200 rounded-lg">
-                      <p className="text-xs text-red-700 font-medium">
+                    <div className="mt-3 p-3 bg-red-900/20 border border-red-700 rounded-lg">
+                      <p className="text-xs text-red-300 font-medium">
                         Warning: You have selected {previewUrls.length} files,
                         but only 5 are allowed. Please remove{" "}
                         {previewUrls.length - 5} file(s).

@@ -43,6 +43,28 @@ const SecretUpload = () => {
   // Other states
   const [projects, setProjects] = useState([]);
   const shareLinkRef = useRef(null);
+  const isDarkMode = true; // Permanent dark mode
+
+  // Theme classes helper - permanent dark mode
+  const themeClasses = {
+    bg: "bg-gray-900",
+    text: "text-gray-100",
+    textSecondary: "text-gray-300",
+    textMuted: "text-gray-400",
+    border: "border-gray-700",
+    shadow: "shadow-gray-900/20",
+    cardBg: "bg-gray-800",
+    cardBorder: "border-gray-700",
+    hoverBg: "hover:bg-gray-700",
+    buttonBg: "bg-gray-700",
+    buttonBorder: "border-gray-600",
+    buttonText: "text-gray-200",
+    buttonHover: "hover:bg-gray-600",
+    sidebarBg: "bg-gray-800",
+    sidebarText: "text-gray-300",
+    sidebarHover: "hover:bg-gray-700",
+    sidebarActive: "bg-indigo-900 text-indigo-200",
+  };
 
   // Fetch projects (mock data for now - replace with actual API call)
   useEffect(() => {
@@ -517,7 +539,7 @@ const SecretUpload = () => {
     },
     {
       id: "access",
-      label: "Access Control",
+      label: "Access Secret",
       icon: (
         <svg
           className="w-5 h-5"
@@ -551,6 +573,8 @@ const SecretUpload = () => {
             setError={setError}
             onSubmit={handleSubmit}
             projects={projects}
+            isDarkMode={isDarkMode}
+            themeClasses={themeClasses}
           />
         );
 
@@ -572,6 +596,8 @@ const SecretUpload = () => {
             handleDeleteProject={handleDeleteProject}
             projects={projects}
             imageService={imageService}
+            isDarkMode={isDarkMode}
+            themeClasses={themeClasses}
           />
         );
 
@@ -594,6 +620,8 @@ const SecretUpload = () => {
             projectImages={projectImages}
             handleEditProjectImage={handleEditProjectImage}
             imageService={imageService}
+            isDarkMode={isDarkMode}
+            themeClasses={themeClasses}
           />
         );
 
@@ -610,6 +638,8 @@ const SecretUpload = () => {
             successMessage={successMessage}
             setSuccessMessage={setSuccessMessage}
             imageService={imageService}
+            isDarkMode={isDarkMode}
+            themeClasses={themeClasses}
           />
         );
 
@@ -627,7 +657,7 @@ const SecretUpload = () => {
         case "delete":
           return {
             icon: (
-              <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+              <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-900/20">
                 <svg
                   className="h-6 w-6 text-red-600"
                   fill="none"
@@ -649,7 +679,7 @@ const SecretUpload = () => {
         case "warning":
           return {
             icon: (
-              <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100">
+              <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-yellow-900/20">
                 <svg
                   className="h-6 w-6 text-yellow-600"
                   fill="none"
@@ -671,7 +701,7 @@ const SecretUpload = () => {
         default:
           return {
             icon: (
-              <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100">
+              <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-900/20">
                 <svg
                   className="h-6 w-6 text-blue-600"
                   fill="none"
@@ -700,26 +730,26 @@ const SecretUpload = () => {
         <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
           {/* Background overlay */}
           <div
-            className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+            className="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity"
             onClick={onClose}
           ></div>
 
           {/* Modal panel */}
-          <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-            <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+          <div className={`inline-block align-bottom ${themeClasses.cardBg} rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full`}>
+            <div className={`${themeClasses.cardBg} px-4 pt-5 pb-4 sm:p-6 sm:pb-4`}>
               <div className="sm:flex sm:items-start">
                 {styles.icon}
                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                  <h3 className="text-lg leading-6 font-medium text-gray-900">
+                  <h3 className={`text-lg leading-6 font-medium ${themeClasses.text}`}>
                     {config.title}
                   </h3>
                   <div className="mt-2">
-                    <p className="text-sm text-gray-500">{config.message}</p>
+                    <p className={`text-sm ${themeClasses.textMuted}`}>{config.message}</p>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+            <div className="bg-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
               <button
                 type="button"
                 onClick={config.confirmAction}
@@ -730,7 +760,7 @@ const SecretUpload = () => {
               <button
                 type="button"
                 onClick={config.cancelAction}
-                className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                className={`mt-3 w-full inline-flex justify-center rounded-md border ${themeClasses.buttonBorder} shadow-sm px-4 py-2 ${themeClasses.buttonBg} text-base font-medium ${themeClasses.buttonText} ${themeClasses.buttonHover} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm`}
               >
                 Cancel
               </button>
@@ -742,16 +772,16 @@ const SecretUpload = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 mt-16">
+    <div className={`min-h-screen ${themeClasses.bg} mt-16`}>
       {/* Custom Modal */}
       <CustomModal config={modalConfig} onClose={() => setModalConfig(null)} />
 
       <div className="flex">
         {/* Sidebar */}
-        <div className="w-64 bg-white shadow-lg min-h-screen">
+        <div className={`w-64 ${themeClasses.sidebarBg} ${themeClasses.shadow} min-h-screen`}>
           <div className="p-6">
-            <h1 className="text-2xl font-bold text-gray-900 mb-8">
-              Admin Dashboard
+            <h1 className={`text-2xl font-bold ${themeClasses.text} mb-8`}>
+              Secret Dashboard
             </h1>
             <nav className="space-y-2">
               {sidebarItems.map((item) => (
@@ -760,8 +790,8 @@ const SecretUpload = () => {
                   onClick={() => setActiveSection(item.id)}
                   className={`w-full flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
                     activeSection === item.id
-                      ? "bg-indigo-100 text-indigo-700"
-                      : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                      ? themeClasses.sidebarActive
+                      : `${themeClasses.sidebarText} ${themeClasses.sidebarHover} hover:${themeClasses.text}`
                   }`}
                 >
                   {item.icon}
@@ -776,14 +806,14 @@ const SecretUpload = () => {
         <div className="flex-1 p-8">
           {/* Success message */}
           {successMessage && (
-            <div className="mb-6 p-4 bg-green-100 text-green-700 rounded-md">
+            <div className="mb-6 p-4 bg-green-900/20 text-green-300 border border-green-700 rounded-md">
               {successMessage}
             </div>
           )}
 
           {/* Error message */}
           {(error || imagesError) && (
-            <div className="mb-6 p-4 bg-red-100 text-red-700 rounded-md">
+            <div className="mb-6 p-4 bg-red-900/20 text-red-300 border border-red-700 rounded-md">
               {error || imagesError}
             </div>
           )}

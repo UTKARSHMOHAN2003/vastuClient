@@ -464,11 +464,11 @@ const ViewProject = () => {
                         </p>
                       )}
 
-                      <div className="flex items-center justify-between space-x-2">
+                      <div className="flex items-center justify-center">
                         <a
                           href={`http://localhost:4000/api/images/${file.id}/data?access_token=${accessToken}`}
                           download={file.filename || file.title}
-                          className="flex-1 inline-flex items-center justify-center px-3 py-1.5 border border-gray-300 text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none transition-colors"
+                          className="w-full inline-flex items-center justify-center px-3 py-1.5 border border-gray-300 text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none transition-colors"
                           title="Download file"
                         >
                           <svg
@@ -486,19 +486,6 @@ const ViewProject = () => {
                           </svg>
                           Download
                         </a>
-
-                        {!isCurrentFile && (
-                          <button
-                            onClick={() => {
-                              const newUrl = `/view-project/${file.id}?access_token=${accessToken}`;
-                              window.location.href = newUrl;
-                            }}
-                            className="flex-1 text-xs text-blue-600 hover:text-blue-800 font-medium py-1.5 px-2 hover:bg-blue-50 rounded transition-colors"
-                            title="View this file in detail"
-                          >
-                            View
-                          </button>
-                        )}
                       </div>
                     </div>
                   </div>
@@ -508,39 +495,7 @@ const ViewProject = () => {
           </div>
         )}
 
-        {/* Download All Button */}
-        {projectFiles.length > 1 && (
-          <div className="mt-8 text-center">
-            <div className="bg-gray-50 rounded-lg p-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-2">
-                Download All Files
-              </h3>
-              <p className="text-sm text-gray-600 mb-4">
-                Download all {projectFiles.length} files from this project
-                individually
-              </p>
-              <div className="flex flex-wrap justify-center gap-2">
-                {projectFiles.map((file) => (
-                  <a
-                    key={file.id}
-                    href={`http://localhost:4000/api/images/${file.id}/data?access_token=${accessToken}`}
-                    download={file.filename || file.title}
-                    className="inline-flex items-center px-3 py-2 border border-gray-300 text-sm font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none transition-colors"
-                    title={`Download ${file.title}`}
-                  >
-                    {getFileIcon(
-                      getFileType(
-                        file.filename || file.title,
-                        file.content_type
-                      )
-                    )}{" "}
-                    {file.title}
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
+
       </div>
     </div>
   );

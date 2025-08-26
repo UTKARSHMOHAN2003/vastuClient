@@ -10,6 +10,8 @@ const AccessControlSection = ({
   successMessage,
   setSuccessMessage,
   imageService,
+  isDarkMode,
+  themeClasses,
 }) => {
   // Add error boundary for image loading
   const [imageLoadErrors, setImageLoadErrors] = useState({});
@@ -75,14 +77,14 @@ const AccessControlSection = ({
   };
 
   return (
-    <div className="bg-white shadow rounded-lg p-6">
-      <h2 className="text-xl font-medium text-gray-900 mb-4">
-        Access Control & Sharing
+    <div className={`${themeClasses.cardBg} shadow rounded-lg p-6`}>
+      <h2 className={`text-xl font-medium ${themeClasses.text} mb-4`}>
+        Access Secret & Sharing
       </h2>
 
       {shareLink ? (
-        <div className="p-4 bg-gray-50 rounded-md">
-          <h3 className="text-sm font-medium text-gray-700 mb-2">
+        <div className={`p-4 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-50'} rounded-md`}>
+          <h3 className={`text-sm font-medium ${themeClasses.text} mb-2`}>
             Shareable Link:
           </h3>
           <div className="flex">
@@ -91,24 +93,24 @@ const AccessControlSection = ({
               type="text"
               value={shareLink}
               readOnly
-              className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-l-md"
+              className={`shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm ${themeClasses.border} rounded-l-md ${themeClasses.cardBg} ${themeClasses.text}`}
             />
             <button
               type="button"
               onClick={copyToClipboard}
-              className="inline-flex items-center px-4 py-2 border border-l-0 border-gray-300 text-sm font-medium rounded-r-md text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none"
+              className={`inline-flex items-center px-4 py-2 border border-l-0 ${themeClasses.border} text-sm font-medium rounded-r-md ${themeClasses.buttonText} ${themeClasses.buttonBg} ${themeClasses.buttonHover} focus:outline-none`}
             >
               Copy
             </button>
           </div>
-          <p className="mt-1 text-xs text-gray-500">
+          <p className={`mt-1 text-xs ${themeClasses.textMuted}`}>
             Share this link with your client. They will be able to view the
             project without needing to log in.
           </p>
         </div>
       ) : (
         <div className="text-center py-8">
-          <p className="text-gray-500">
+          <p className={`${themeClasses.textMuted}`}>
             No active share link. Use the "Share Link" button on any secret
             project to generate a shareable link.
           </p>
@@ -116,7 +118,7 @@ const AccessControlSection = ({
       )}
 
       <div className="mt-8">
-        <h3 className="text-xl font-semibold text-gray-900 mb-6">
+        <h3 className={`text-xl font-semibold ${themeClasses.text} mb-6`}>
           Secret Projects
         </h3>
 
@@ -127,10 +129,10 @@ const AccessControlSection = ({
               return (
                 <div
                   key={projectId}
-                  className="group relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100"
+                  className={`group relative ${themeClasses.cardBg} rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border ${themeClasses.border}`}
                 >
                   {/* Card Header with Image */}
-                  <div className="relative h-48 bg-gradient-to-br from-indigo-50 to-purple-50">
+                  <div className={`relative h-48 ${isDarkMode ? 'bg-gradient-to-br from-gray-700 to-gray-800' : 'bg-gradient-to-br from-indigo-50 to-purple-50'}`}>
                     {!imageLoadErrors[representativeImage.id] ? (
                       <img
                         src={imageService.getImageDataUrl(
@@ -143,7 +145,7 @@ const AccessControlSection = ({
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
-                        <span className="text-gray-400">
+                        <span className={`${themeClasses.textMuted}`}>
                           Image not available
                         </span>
                       </div>
@@ -162,7 +164,7 @@ const AccessControlSection = ({
                     </div>
                     {/* Secret Badge */}
                     <div className="absolute top-4 right-4">
-                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-purple-100 text-purple-800 border border-purple-200">
+                      <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${isDarkMode ? 'bg-purple-900/50 text-purple-200 border border-purple-700' : 'bg-purple-100 text-purple-800 border border-purple-200'}`}>
                         <svg
                           className="w-3 h-3 mr-1"
                           fill="currentColor"
@@ -179,8 +181,8 @@ const AccessControlSection = ({
                     </div>
                     {/* Image Count Badge */}
                     {groupImages.length > 1 && (
-                      <div className="absolute top-4 left-4 bg-white bg-opacity-75 rounded-full w-8 h-8 flex items-center justify-center">
-                        <span className="text-xs font-medium">
+                      <div className={`absolute top-4 left-4 ${isDarkMode ? 'bg-gray-800 bg-opacity-75' : 'bg-white bg-opacity-75'} rounded-full w-8 h-8 flex items-center justify-center`}>
+                        <span className={`text-xs font-medium ${themeClasses.text}`}>
                           +{groupImages.length - 1}
                         </span>
                       </div>
@@ -192,18 +194,18 @@ const AccessControlSection = ({
                     {/* Project Details */}
                     <div className="mb-4">
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm font-medium text-gray-600">
+                        <span className={`text-sm font-medium ${themeClasses.textSecondary}`}>
                           Status
                         </span>
-                        <span className="text-xs px-2 py-1 bg-green-100 text-green-800 rounded-full font-medium">
+                        <span className={`text-xs px-2 py-1 ${isDarkMode ? 'bg-green-900/50 text-green-200' : 'bg-green-100 text-green-800'} rounded-full font-medium`}>
                           Active
                         </span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-gray-600">
+                        <span className={`text-sm font-medium ${themeClasses.textSecondary}`}>
                           Access Type
                         </span>
-                        <span className="text-xs px-2 py-1 bg-blue-100 text-blue-800 rounded-full font-medium">
+                        <span className={`text-xs px-2 py-1 ${isDarkMode ? 'bg-blue-900/50 text-blue-200' : 'bg-blue-100 text-blue-800'} rounded-full font-medium`}>
                           Token-based
                         </span>
                       </div>
@@ -287,9 +289,9 @@ const AccessControlSection = ({
         ) : (
           /* Empty State */
           <div className="text-center py-12">
-            <div className="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+            <div className={`mx-auto w-24 h-24 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'} rounded-full flex items-center justify-center mb-4`}>
               <svg
-                className="w-12 h-12 text-gray-400"
+                className={`w-12 h-12 ${themeClasses.textMuted}`}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -302,10 +304,10 @@ const AccessControlSection = ({
                 />
               </svg>
             </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
+            <h3 className={`text-lg font-medium ${themeClasses.text} mb-2`}>
               No Secret Projects
             </h3>
-            <p className="text-gray-500">
+            <p className={`${themeClasses.textMuted}`}>
               Create secret projects to enable secure sharing with clients.
             </p>
           </div>
