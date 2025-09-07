@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 // Base API URL - change this to your server URL in production
-const BASE_URL = "http://localhost:4000/api";
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:4000/api";
 
 // Image API endpoints
 export const API_ENDPOINTS = {
