@@ -4,6 +4,9 @@ import { imageService } from '../services/api';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
 
+// Get the base URL for image data
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:4000/api";
+
 const ImageDetail = () => {
   const { title } = useParams();
   const [images, setImages] = useState([]);
@@ -44,7 +47,7 @@ const ImageDetail = () => {
 
   const mainImage = images[0];
   const lightboxSlides = images.map(img => ({
-    src: `http://localhost:4000/api/images/${img.id}/data`,
+    src: `${BASE_URL}/images/${img.id}/data`,
     alt: img.description || img.title
   }));
 
@@ -61,7 +64,7 @@ const ImageDetail = () => {
       <div className="w-full aspect-[3/1] bg-gray-100 overflow-hidden">
        
         <img
-          src={`http://localhost:4000/api/images/${mainImage.id}/data`}
+          src={`${BASE_URL}/images/${mainImage.id}/data`}
           alt={mainImage.title}
           className="w-full h-full object-cover"
         />
@@ -109,7 +112,7 @@ const ImageDetail = () => {
               type="button"
             >
               <img
-                src={`http://localhost:4000/api/images/${img.id}/data`}
+                src={`${BASE_URL}/images/${img.id}/data`}
                 alt={img.description || img.title}
                 className="w-full h-full object-cover cursor-zoom-in"
               />
