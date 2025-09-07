@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 
+// Get the base URL for image data
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:4000/api";
+
 const ViewProject = () => {
   const { id } = useParams();
   const [searchParams] = useSearchParams();
@@ -24,7 +27,7 @@ const ViewProject = () => {
       try {
         // First verify if this is a valid shared project
         const verifyResponse = await fetch(
-          `http://localhost:4000/api/images/${id}?access_token=${accessToken}`
+          `${BASE_URL}/images/${id}?access_token=${accessToken}`
         );
 
         if (!verifyResponse.ok) {
@@ -40,7 +43,7 @@ const ViewProject = () => {
 
         // Now fetch all related files in the project
         const projectFiles = await fetch(
-          `http://localhost:4000/api/images?project_id=${projectData.project_id}&access_token=${accessToken}`
+          `${BASE_URL}/images?project_id=${projectData.project_id}&access_token=${accessToken}`
         ).then((res) => res.json());
 
         setProjectFiles(projectFiles);
@@ -145,7 +148,7 @@ const ViewProject = () => {
       file.filename || file.title,
       file.content_type
     );
-    const fileUrl = `http://localhost:4000/api/images/${file.id}/data?access_token=${accessToken}`;
+    const fileUrl = `${BASE_URL}/images/${file.id}/data?access_token=${accessToken}`;
 
     const containerClasses = isMain
       ? "border-t border-gray-200 p-6"
@@ -466,7 +469,7 @@ const ViewProject = () => {
 
                       <div className="flex items-center justify-center">
                         <a
-                          href={`http://localhost:4000/api/images/${file.id}/data?access_token=${accessToken}`}
+                          href={`${BASE_URL}/images/${file.id}/data?access_token=${accessToken}`}
                           download={file.filename || file.title}
                           className="w-full inline-flex items-center justify-center px-3 py-1.5 border border-gray-300 text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none transition-colors"
                           title="Download file"
