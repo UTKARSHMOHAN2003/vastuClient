@@ -1,5 +1,8 @@
 import React, { useRef, useEffect, useState } from "react";
 
+// Get the base URL for image data
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:4000/api";
+
 const AccessControlSection = ({
   images,
   shareLink,
@@ -49,7 +52,7 @@ const AccessControlSection = ({
     try {
       // First, regenerate access token if needed
       const tokenResponse = await fetch(
-        `http://localhost:4000/api/images/${representativeImage.id}/regenerate-token`,
+        `${BASE_URL}/images/${representativeImage.id}/regenerate-token`,
         {
           method: "POST",
           headers: {
