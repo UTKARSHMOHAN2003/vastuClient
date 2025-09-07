@@ -4,6 +4,9 @@ import Lightbox from "yet-another-react-lightbox";
 import { Link } from "react-router-dom";
 import "yet-another-react-lightbox/styles.css";
 
+// Get the base URL for image data
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:4000/api";
+
 const ImageGallery = () => {
   const { images, loading, error } = useImages();
   const [activeCategory, setActiveCategory] = useState("All");
@@ -46,7 +49,7 @@ const ImageGallery = () => {
   const openLightbox = (groupTitle, index) => {
     const groupImages = validGroupedImages[groupTitle];
     const slides = groupImages.map((img) => ({
-      src: `http://localhost:4000${img.filepath}`,
+      src: `${BASE_URL}/images/${img.id}/data`,
       alt: img.description || img.title,
     }));
 
@@ -90,7 +93,7 @@ const ImageGallery = () => {
             >
               <div className="w-full aspect-square mb-3 sm:mb-4 overflow-hidden rounded-sm bg-gray-100 relative">
                 <img
-                  src={`http://localhost:4000/api/images/${groupImages[0].id}/data`}
+                  src={`${BASE_URL}/images/${groupImages[0].id}/data`}
                   alt={title}
                   className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                 />
