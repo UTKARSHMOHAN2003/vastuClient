@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import { useImages } from "../services/api";
 import founder_sunny from '../Assets/founder_sunny.jpeg';
 
+// Get the base URL for image data
+const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:4000/api";
+
 const BLOG_FEED_URL = "https://vastudesignslimited.blogspot.com/feeds/posts/default?alt=json";
 
 const LatestBlogs = () => {
@@ -207,7 +210,7 @@ const ArchitecturePortfolio = () => {
                 >
                   <div className="aspect-[4/3] bg-gray-100 mb-6 overflow-hidden relative">
                     <img
-                      src={`http://localhost:4000/api/images/${groupImages[0].id}/data`}
+                      src={`${BASE_URL}/images/${groupImages[0].id}/data`}
                       alt={title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
