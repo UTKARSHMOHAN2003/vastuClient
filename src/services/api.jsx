@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-// Base API URL - change this to your server URL in production
+// Base API URL - uses environment variable with fallback to localhost for development
 const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:4000/api";
 
 // Image API endpoints
@@ -22,9 +22,12 @@ const fetchAPI = async (url, options = {}) => {
     const token = localStorage.getItem("authToken");
     const headers = {
       ...options.headers,
-      // Add admin access header
-      "x-admin-access": "true",
     };
+
+    // Only set Content-Type for JSON requests, not for FormData
+    if (!(options.body instanceof FormData)) {
+      headers["Content-Type"] = "application/json";
+    }
 
     if (token) {
       headers["Authorization"] = `Bearer ${token}`;
@@ -102,9 +105,6 @@ export const imageService = {
     const params = new URLSearchParams();
     if (accessToken) params.append("access_token", accessToken);
 
-    // Add admin access to URL for direct image access
-    params.append("admin", "true");
-
     const url = API_ENDPOINTS.IMAGE_DATA(id);
     return `${url}?${params.toString()}`;
   },
@@ -121,9 +121,6 @@ export const imageService = {
   updateImage: (id, data) =>
     fetchAPI(API_ENDPOINTS.IMAGE_BY_ID(id), {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
       body: JSON.stringify(data),
     }),
 
@@ -145,18 +142,12 @@ export const imageService = {
   regenerateAccessToken: (id) =>
     fetchAPI(API_ENDPOINTS.REGENERATE_TOKEN(id), {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
     }),
 
   // Revoke access to a secret project
   revokeAccess: (id) =>
     fetchAPI(API_ENDPOINTS.REVOKE_ACCESS(id), {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
     }),
 };
 
@@ -181,13 +172,13 @@ export const useImages = (filters = {}) => {
     }
   };
 
-  // Add adminStatus to dependency array to refetch when admin status changes
+  // Refetch images when filters change
   useEffect(() => {
     fetchImages();
   }, [
     filters.category,
     filters.project_id,
-    // Add any admin status from your auth context if you have one
+    filters.title,
   ]);
 
   return { images, loading, error, fetchImages };
@@ -195,25 +186,12 @@ export const useImages = (filters = {}) => {
 
 export const authAPI = {
   login: async (credentials) => {
-    try {
-      const response = await fetch(`${BASE_URL}/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: credentials.username,
-          password: credentials.password,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Login failed");
-      }
-
-      return await response.json();
-    } catch (error) {
-      throw new Error(error.message || "Network error");
-    }
+    return fetchAPI(`${BASE_URL}/auth/login`, {
+      method: "POST",
+      body: JSON.stringify({
+        username: credentials.username,
+        password: credentials.password,
+      }),
+    });
   },
 };
