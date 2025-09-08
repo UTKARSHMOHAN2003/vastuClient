@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 
 // Base API URL - uses environment variable with fallback to deployed backend
-const BASE_URL = process.env.REACT_APP_BASE_URL || "https://vastu-client-jdvw.vercel.app/api";
+const BASE_URL = process.env.REACT_APP_BASE_URL || "https://vastu-client-jdvw.vercel.app";
 
 // Image API endpoints
 export const API_ENDPOINTS = {
-  IMAGES: `${BASE_URL}/images`,
-  IMAGE_BY_ID: (id) => `${BASE_URL}/images/${id}`,
-  IMAGE_DATA: (id) => `${BASE_URL}/images/${id}/data`,
-  IMAGE_FILE: (id) => `${BASE_URL}/images/${id}/file`,
-  REGENERATE_TOKEN: (id) => `${BASE_URL}/images/${id}/regenerate-token`,
-  REVOKE_ACCESS: (id) => `${BASE_URL}/images/${id}/revoke-access`,
+  IMAGES: `${BASE_URL}/api/images`,
+  IMAGE_BY_ID: (id) => `${BASE_URL}/api/images/${id}`,
+  IMAGE_DATA: (id) => `${BASE_URL}/api/images/${id}/data`,
+  IMAGE_FILE: (id) => `${BASE_URL}/api/images/${id}/file`,
+  REGENERATE_TOKEN: (id) => `${BASE_URL}/api/images/${id}/regenerate-token`,
+  REVOKE_ACCESS: (id) => `${BASE_URL}/api/images/${id}/revoke-access`,
 };
 
 // Generic fetch function with enhanced error handling
@@ -188,7 +188,7 @@ export const useImages = (filters = {}) => {
 
 export const authAPI = {
   login: async (credentials) => {
-    return fetchAPI(`${BASE_URL}/auth/login`, {
+    return fetchAPI(`${BASE_URL}/api/auth/login`, {
       method: "POST",
       body: JSON.stringify({
         username: credentials.username,
