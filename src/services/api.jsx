@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
-// Base API URL - uses environment variable with fallback to localhost for development
-const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:4000/api";
+// Base API URL - uses environment variable with fallback to deployed backend
+const BASE_URL = process.env.REACT_APP_BASE_URL || "https://vastu-client-jdvw.vercel.app/api";
 
 // Image API endpoints
 export const API_ENDPOINTS = {
@@ -37,6 +37,8 @@ const fetchAPI = async (url, options = {}) => {
       ...options,
       headers,
       signal: controller.signal,
+      mode: 'cors',
+      credentials: 'omit',
     });
 
     clearTimeout(timeoutId);
